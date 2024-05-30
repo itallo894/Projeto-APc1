@@ -64,6 +64,7 @@ int main() {
       printf("ENTÃO VAMOS COMEÇAR!! \n");
       printf("DIGITE (-1), (-2), ou um numero entre 0 e 50: ");
       deu_certo = scanf("%d", &n1);
+      while (getchar() != '\n');
 
       if ((n1 == -1) || (n1 == -2) || (n1 >= -2 && n1 <= 50)) {
         if (n1 == -1) {
