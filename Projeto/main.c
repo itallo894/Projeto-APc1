@@ -1,131 +1,189 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
+
+// Itallo de sousa Lima - 2412130020
+// Pedro Barbosa Souza - 2412130124
 
 int main() {
   int opcao = 0;
-  int na;
-  int n1;
+  int nAleatorio;
+  char n1[10];
+  char retorno;
   int saldo = 0;
-  int deposito;
+  int deposito = 0;
+  int vRodada;
+  int vitoria;
+  int derrota;
+  char nome[31];
+
+  system("clear");
+  printf("Qual o seu nome? ");
+  scanf(" %[^\n]s", nome);
 
   while (opcao != 4) {
-    int deu_certo = system("clear");
+    while (getchar() != '\n')
+      ;
+    printf("\n");
+    system("clear");
     printf("ROLETA CASSINO\n");
     printf("1 - INICIAR\n");
     printf("2 - DEPOSITAR COYNS\n");
     printf("3 - CONSULTAR SALDO\n");
     printf("4 - SAIR\n");
     printf("Escolha uma opção => ");
-    deu_certo = scanf("%i", &opcao);
+    if (scanf("%i", &opcao) == 0) {
+      opcao = 0;
+    }
     printf("\n");
     while (getchar() != '\n')
       ;
-    if (!deu_certo) {
-      opcao = 0;
-    }
+
     switch (opcao) {
     case 1: {
-      char nome[31];
-      deu_certo = system("clear");
-      printf("Qual o seu nome? ");
-      deu_certo = scanf("%[^\n]s", nome);
-      while (getchar() != '\n')
-        ;
+      system("clear");
       printf("Ola %s!\n", nome);
       printf("Seja Muito bem - vindo!\n");
-      printf("Que comecem os jogos (: \n");
-      
-      printf("pressione ENTER para iniciar...\n");
+      printf("Pressione ENTER para iniciar...\n");
       getchar();
-
 
       srand(time(NULL));
 
-      na = rand() % 50;
+      do {
+        nAleatorio = rand() % 51;
 
-      int deu_certo = system("clear");
-      
-      printf("RRRRR   OOO   L      EEEEE    TTTTT   A\n");
-      printf("R    R O   O  L      E          T    A A\n");
-      printf("RRRRR  O   O  L      EEE        T   AAAAA\n");
-      printf("R   R  O   O  L      E          T   A   A\n");
-      printf("R    R  OOO   LLLLL  EEEEE      T   A   A\n");
-     
-      
-      printf("___________________________________________\n");
-      printf("\n");
-      printf("DIGITE (-1) - P/ APOSTAR EM NUMEROS IMPARES VALENDO 1 MILHAO\n");
-      printf("DIGITE (-2) - P/ APOSTAR EM NUMEROS PARES VALENDO 1 MILHAO\n");
-      printf(
-          "DIGITE UM NUMERO ENTRE 0 E 50 - P/ APOSTAR EM NUMEROS  ESPECIFICOS\n");
-      printf("SE VOCE ACERTAO O NUMERO ESPECÍFICO GANHA 100 MILHOES DE REAIS\n");
-      printf("CASO NÃO ACERTE NADA VOCE PERDE TUDO!!\n");
-      printf("ENTÃO VAMOS COMEÇAR!! \n");
-      printf("DIGITE (-1), (-2), ou um numero entre 0 e 50: ");
-      deu_certo = scanf("%d", &n1);
-      while (getchar() != '\n');
+        system("clear");
+        printf("RRRRR   OOO   L      EEEEE    TTTTT   A\n");
+        printf("R    R O   O  L      E          T    A A\n");
+        printf("RRRRR  O   O  L      EEE        T   AAAAA\n");
+        printf("R   R  O   O  L      E          T   A   A\n");
+        printf("R    R  OOO   LLLLL  EEEEE      T   A   A\n");
 
-      if ((n1 == -1) || (n1 == -2) || (n1 >= -2 && n1 <= 50)) {
-        if (n1 == -1) {
-          printf("voce escolheu numeros impares\n");
-          printf("O resultado da roleta foi: %d\n", na);
-          if (na % 2 == 1) {
-            printf("parabens voce ganhou 1 milhao de reais!!\n");
+        printf("\n");
+        printf("Saldo : R$%i\n", saldo);
+        printf("_______________\n");
+        printf("\n");
+        printf("DIGITE (I) - Conjunto Números Impares!\n");
+        printf("DIGITE (P) - Conjunto Números Pares!\n");
+        printf("\n");
+        printf("Temos a opção de entrada com valores únicos\n");
+        printf("Escolha uma opção entre 0 e 50.\n");
+        printf("\n");
+        printf("A rodada irá começar! \n");
+        printf("Insira sua entrada nessa Rodada %s!\n", nome);
+
+        scanf("%9s", n1);
+        while (getchar() != '\n')
+          ;
+
+        n1[0] = toupper(n1[0]);
+
+        printf("Insira o Valor Y$ que irá jogar nessa rodada! Y$\n");
+        scanf("%d", &vRodada);
+        while (getchar() != '\n')
+          ;
+
+        if (saldo >= vRodada) {
+          printf("Opção Selecionada %s, valor inserido Y$%i.\n \n", n1,
+                 vRodada);
+
+          int n1_num = atoi(n1);
+          if (n1[0] == 'I' || n1[0] == 'P' || (n1_num >= 0 && n1_num <= 50)) {
+            if (n1[0] == 'I') {
+              printf("Você escolheu números ímpares\n");
+              printf("O resultado da roleta foi: %d\n \n", nAleatorio);
+              if (nAleatorio % 2 == 1) {
+                vitoria = vRodada;
+                saldo += vitoria;
+                printf("Parabéns %s, Você Ganhou Y$%i !!\n", nome, vitoria);
+                printf("Seu saldo atual é de Y$%i !!\n \n", saldo);
+              } else {
+                derrota = vRodada;
+                saldo -= derrota;
+                printf("Você perdeu Y$%i, tente novamente!\n", vRodada);
+                printf("Seu saldo atual é de Y$%i !!\n \n", saldo);
+              }
+            } else if (n1[0] == 'P') {
+              printf("Você escolheu números pares\n");
+              printf("O resultado da roleta foi: %d\n \n", nAleatorio);
+              if (nAleatorio % 2 == 0) {
+                vitoria = vRodada;
+                saldo += vitoria;
+                printf("Parabéns %s, Você Ganhou Y$%i !!\n", nome, vitoria);
+                printf("Seu saldo atual é de Y$%i !!\n \n", saldo);
+              } else {
+                derrota = vRodada;
+                saldo -= derrota;
+                printf("Você perdeu Y$%i, tente novamente!\n", vRodada);
+                printf("Seu saldo atual é de Y$%i !!\n \n", saldo);
+              }
+            } else {
+              if (n1_num >= 0 && n1_num <= 50) {
+                printf("Você selecionou o número: %d\n", n1_num);
+                printf("O resultado da roleta foi: %d\n \n", nAleatorio);
+                if (nAleatorio == n1_num) {
+                  vitoria = vRodada * 5;
+                  saldo += vitoria;
+                  printf("Parabéns %s, Você Ganhou Y$%i !!\n", nome, vitoria);
+                  printf("Seu saldo atual é de Y$%i !!\n \n", saldo);
+                } else {
+                  derrota = vRodada;
+                  saldo -= derrota;
+                  printf("Você perdeu Y$%i, tente novamente!\n", vRodada);
+                  printf("Seu saldo atual é de Y$%i !!\n \n", saldo);
+                }
+              } else {
+                printf("Número inválido!\n");
+              }
+            }
           } else {
-            printf("voce perdeu todo seu dinheiro, tente novamente! \n");
+            printf("Número inválido!\n");
           }
+        } else {
+          printf("Saldo Insuficiente, Retorne ao menu Principal e realize um "
+                 "depósito!!\n");
         }
-        if (n1 == -2) {
-          printf("voce escolheu numeros pares\n");
-          printf("O resultado da roleta foi: %d\n", na);
-          if (na % 2 == 0) {
-            printf("parabens voce ganhou 1 milhao de reais!!\n");
-          } else {
-            printf("voce perdeu todo seu dinheiro, tente novamente! \n");
-          }
-        }
-        if (na == n1) {
-          printf("voce escolheu o numero: %i \n", n1);
-          printf("O resultado da roleta foi: %d\n", na);
-          printf("parabens voce ganhou 100 milhoes de reais!!\n");
-        }
-        if ((n1 != -1) && (n1 != -2) && (na != n1)) {
-          printf("voce escolheu o numero: %i \n", n1);
-          printf("O resultado da roleta foi: %d\n", na);
-          printf("voce perdeu todo seu dinheiro, tente novamente! \n");
-        }
-      } else {
-        printf("numero invalido!\n ");
-      }
+
+        printf("Quer continuar? Sim 'S', Não 'N'\n");
+        scanf(" %c", &retorno);
+        retorno = toupper(retorno);
+
+      } while (retorno == 'S');
+
       getchar();
-    } break;
+      break;
+    }
+
     case 2: {
-      deu_certo = system("clear");
+      system("clear");
       printf("-----REALIZE SEU DEPOSITO-----\n");
       printf("Insira o valor do seu depósito:\n");
-      deu_certo = scanf("%i", &deposito);
-      saldo = saldo + deposito;
-      printf("Depósito realizado seu saldo atual é : %i\n", saldo);
-      printf("pressione ENTER para voltar...");
+      scanf("%i", &deposito);
+      saldo += deposito;
+      printf("Depósito realizado, seu saldo atual é: %i\n", saldo);
+      printf("Pressione ENTER para voltar...");
       getchar();
-    }
       break;
-    case 3: {
-      deu_certo = system("clear");
-      printf("SALDO ATUAL : %i \n", saldo);
-      printf("-----------------\n");
-      printf("Ultimo depósito realizado : Y$ %i\n", deposito);
-      printf("Tecle ENTER para retornar..");
-      getchar();
+    }
 
+    case 3: {
+      system("clear");
+      printf("SALDO ATUAL de %s: %i\n", nome, saldo);
+      printf("-----------------\n");
+      printf("Último depósito realizado: Y$ %i\n", deposito);
+      printf("Tecle ENTER para retornar...");
+      getchar();
+      break;
     }
-      break;
+
     case 4:
-      printf("até logo!\n");
+      printf("Até logo %s!\n", nome);
       break;
+
     default:
-      printf("Opcao invalida! Precione ENTER para prosseguir...\n");
+      printf("Opção inválida! Pressione ENTER para prosseguir...\n");
       getchar();
     }
   }
